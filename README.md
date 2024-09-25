@@ -1,14 +1,14 @@
 # Predicting-New-York-City-Taxi-Demand
 
 ## Data Sources:
-New York City Taxi and Limousine Commission (TLC) Yellow Taxi Trip Records (~3 GB each file)
+### New York City Taxi and Limousine Commission (TLC) Yellow Taxi Trip Records (~3 GB each file)
+2023 Yellow Taxi Trip Data - https://data.cityofnewyork.us/Transportation/2023-Yellow-Taxi-Trip-Data/4b4i-vvec/about_data 
 
-2023 Yellow Taxi Trip Data  
-2022 Yellow Taxi Trip Data  
-2021 Yellow Taxi Trip Data 
+2022 Yellow Taxi Trip Data - https://data.cityofnewyork.us/Transportation/2022-Yellow-Taxi-Trip-Data/qp3b-zxtp/about_data
 
-Weather Data from Visual Crossing (data size not measured yet)
+2021 Yellow Taxi Trip Data - https://data.cityofnewyork.us/Transportation/2021-Yellow-Taxi-Trip-Data/m6nq-qud6/about_data
 
+### Weather Data from Visual Crossing (data size not measured yet)
 https://www.visualcrossing.com/weather/weather-data-services
 
 ## Data Description:
