@@ -15,4 +15,8 @@ pip3 install google-cloud-storage
 # Set up credentials for Google user account
 gcloud auth application-default login
 
+# Create python script
+nano extracting_data.py
 
+# Excute the python script
+python3 extracting_data.py

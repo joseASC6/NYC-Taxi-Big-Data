@@ -1,7 +1,5 @@
 # Imports
 from google.cloud import storage
-import requests
-import json
 from sodapy import Socrata
 import pandas as pd
 from io import StringIO
@@ -17,50 +15,17 @@ bucket = storage_client.get_bucket(bucket_name)
 # Destination folder
 destination_folder = 'landing/'
 
-"""
-# Read the JSON config file
-config_file_path = 'config.json'
-with open(config_file_path, 'r') as config_file:
-    config = json.load(config_file) 
-
-# Taxi API Authentication
-taxi_token  = config['taxi_token']
-taxi_username = config['taxi_username']
-taxi_password = config['taxi_password'] 
-"""
-
 # Taxi Data API URL's
 taxi_data_domain = "data.cityofnewyork.us"
 taxi_data_ids = {
     "4b4i-vvec" : "2023"
 }
 
-def extract_taxi_data(taxi_data_id):
-    year = taxi_data_ids[taxi_data_id]
-    print(f"Extracting taxi data for year: \t{year}")
-    client = Socrata(taxi_data_domain, None)
-
-    tax_records = []
-    offset = 0
-    limit = 50000
-
-    while True:
-        records = client.get(taxi_data_id, limit=limit, offset=offset)
-        if not records:
-            break
-        tax_records.extend(records)
-        offset += limit
-        print(f"\nFetched {len(tax_records)} records so far...")
-
-    print(f"\nTotal records fetched: {len(tax_records)}")
-
-    print(f"Converting to DataFrame...")
-    df = pd.DataFrame.from_records(tax_records)
-
-    file_name = f"yellow_taxi_data_{year}.csv"
+def upload_to_gcs(taxi_data_year, data, file_number):
+    file_name = f"yellow_taxi_data_{taxi_data_year}_{file_number}.csv"
     csv_buffer = StringIO()
     print(f"Saving to CSV: \t{file_name}")
-    df.to_csv(csv_buffer, index=False)
+    data.to_csv(csv_buffer, index=False)
     
     # Upload to GCS
     print(f"Uploading to GCS: \t{file_name}")
@@ -68,6 +33,47 @@ def extract_taxi_data(taxi_data_id):
     blob.upload_from_string(csv_buffer.getvalue(), content_type='text/csv')
     
     print(f"Upload complete: \t{file_name}")
+
+
+def extract_taxi_data(taxi_data_id):
+    taxi_data_year = taxi_data_ids[taxi_data_id]
+    print(f"Extracting taxi data for year: \t{taxi_data_year}")
+    client = Socrata(taxi_data_domain, None)
+
+    tax_records = []
+    offset = 0 
+    limit = 50000
+    records_per_file = 1000000 # Number of records per file, change based on RAM capacity
+    file_number = 1
+    current_records = 0
+
+    while True:
+        records = client.get(taxi_data_id, limit=limit, offset=offset)
+        if not records:
+            break
+        tax_records.extend(records)
+        current_records += len(records)
+
+        # If we have accumalted enough records, save to GCS
+        if current_records >= records_per_file:
+            df = pd.DataFrame.from_records(tax_records)
+            upload_to_gcs(taxi_data_year, df, file_number)
+            
+
+            # Reset the records
+            tax_records = []
+            current_records = 0
+            file_number += 1
+    
+        offset += limit
+        print(f"\nFetched {len(tax_records)} records so far...")
+
+    # Save the remaining records
+    if tax_records:
+        df = pd.DataFrame.from_records(tax_records)
+        upload_to_gcs(taxi_data_year, df, file_number)
+
+    print(f"\nTotal records fetched: {len(tax_records)}")
 
 
 
