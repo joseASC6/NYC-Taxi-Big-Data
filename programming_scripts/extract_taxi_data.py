@@ -2,7 +2,7 @@
 from google.cloud import storage
 import requests
 import json
-from soadpy import Socrata
+from sodapy import Socrata
 import pandas as pd
 from io import StringIO
 
@@ -56,7 +56,7 @@ def extract_taxi_data(taxi_data_id):
 
     print(f"Converting to DataFrame...")
     df = pd.DataFrame.from_records(tax_records)
-    
+
     file_name = f"yellow_taxi_data_{year}.csv"
     csv_buffer = StringIO()
     print(f"Saving to CSV: \t{file_name}")
