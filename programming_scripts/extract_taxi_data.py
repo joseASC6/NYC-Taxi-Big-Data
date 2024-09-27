@@ -42,8 +42,8 @@ def extract_taxi_data(taxi_data_id):
 
     tax_records = []
     offset = 0 
-    limit = 50000
-    records_per_file = 1000000 # Number of records per file, change based on RAM capacity
+    limit = 50000 # API endpoints have a max limit of 50,000 records per request
+    records_per_file = 5000000 # Number of records per file, change based on RAM capacity
     file_number = 1
     current_records = 0
 
@@ -74,21 +74,12 @@ def extract_taxi_data(taxi_data_id):
         upload_to_gcs(taxi_data_year, df, file_number)
 
     print(f"\nTotal records fetched: {len(tax_records)}")
+  
 
-
-
-# Main function
-def main():
-    
+if __name__ == "__main__":
     # Loop through the taxi data ids keys
     print("Downloading taxi data...")
     for taxi_data_id in taxi_data_ids.keys():
         extract_taxi_data(taxi_data_id)
     
     print("All taxi data uploaded to GCS!")
-    
-    
-
-if __name__ == "__main__":
-    main()
-        

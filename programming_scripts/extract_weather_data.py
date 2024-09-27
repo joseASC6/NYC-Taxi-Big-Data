@@ -47,8 +47,9 @@ def extract_weather_data(borough, year):
     else:
         print(f"Error: {response.status_code}")
 
-def main():
-    print("Choose a location:")
+
+if __name__ == "__main__":
+    print("Choose a borough:")
     for i, borough in enumerate(boroughs):
         print(f"{i+1}. {borough}")
     borough = int(input("Select a borough:\t")) - 1
@@ -64,6 +65,3 @@ def main():
     print(f"Extracting weather data for {borough} in {year}")
 
     extract_weather_data(borough, year)
-
-if __name__ == "__main__":
-    main()

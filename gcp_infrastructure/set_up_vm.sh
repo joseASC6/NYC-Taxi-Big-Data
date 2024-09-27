@@ -16,7 +16,11 @@ pip3 install google-cloud-storage
 gcloud auth application-default login
 
 # Create python script
-nano extracting_data.py
+nano extracting_taxi_data.py
 
 # Excute the python script
-python3 extracting_data.py
+python3 extracting_taxi_data.py
+
+nano extracting_weather_data.py
+
+python3 extracting_weather_data.py
