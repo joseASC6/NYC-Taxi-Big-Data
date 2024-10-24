@@ -9,7 +9,7 @@ cd pythondev; source bin/activate
 
 # Install the required Python packages
 pip3 install --upgrade pip
-pip3 install jupyter pandas numpy requests sodapy
+pip3 install jupyter pandas numpy requests 
 pip3 install google-cloud-storage
 
 # Set up credentials for Google user account
@@ -26,3 +26,4 @@ nano extracting_weather_data.py
 
 # Excute python script
 python3 extracting_weather_data.py
+
