@@ -1,0 +1,1 @@
+gcloud dataproc clusters create cluster-a787 --enable-component-gateway --region us-central1 --subnet default --single-node --master-machine-type n2-standard-8 --master-boot-disk-type pd-balanced --master-boot-disk-size 200 --image-version 2.2-debian12 --optional-components JUPYTER --max-idle 3600s --project cis-4130-big-data
