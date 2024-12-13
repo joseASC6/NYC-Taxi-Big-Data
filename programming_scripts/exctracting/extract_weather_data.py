@@ -21,7 +21,7 @@ base_url = "https://weather.visualcrossing.com/VisualCrossingWebServices/rest/se
 
 boroughs = ['Manhattan', 'Brooklyn', 'Queens', 'Bronx', 'Staten Island']
 years = [2021, 2022, 2023]
-key = "5ZWZZVN2Q99L955WE2T42Y38B" # Replace with your own API key
+key = "" # Replace with your own API key
 params = {
     "key" : key,
     "contentType" : "csv",
